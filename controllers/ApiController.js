@@ -1,7 +1,7 @@
 const { error } = require("console");
 const fs = require('fs')
 const path = require("path");
-
+// List of allowed video file extensions
 const allowedExtensions = [".mp4",".avi",".mov",".mkv","webm",".flv","wmv","ts",".m3u8",".3gp"];
 
 class ApiController {
