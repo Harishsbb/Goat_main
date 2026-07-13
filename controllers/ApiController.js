@@ -38,9 +38,9 @@ class ApiController {
 
         }
         catch (error) {
-
+         console.error(`[Error fetching tags for ID ${req.params.id}]:`, error);
             res.status(500).json({
-                error: error.message
+                error: "Something went wrong on our end. Please try again later."
             });
 
         }
