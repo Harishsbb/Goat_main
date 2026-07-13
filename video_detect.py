@@ -3,7 +3,7 @@ from pupil_apriltags import Detector
 import json
 import sys
 
-
+# initialize the AprilTag detector with the desired tag family
 detector = Detector(families="tag36h11")
 # print(detector)
 # function to detect AprilTags in a video and return their center coordinates with timestamps
@@ -24,7 +24,7 @@ def tag_detection(video_path):
             print("Video completed.", file=sys.stderr)
             break
 
-        
+        #gray scale conversion for better detection
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         # Detect all AprilTags in the current frame

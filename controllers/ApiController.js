@@ -1,4 +1,8 @@
+const { error } = require("console");
+const fs = require('fs')
 const path = require("path");
+// List of allowed video file extensions
+const allowedExtensions = [".mp4",".avi",".mov",".mkv","webm",".flv","wmv","ts",".m3u8",".3gp"];
 
 class ApiController {
 
@@ -47,6 +51,16 @@ class ApiController {
                 `${req.params.id}.mp4`
             );
 
+            const ext = path.extname(videoPath).toLowerCase();
+
+            if(!allowedExtensions.includes(ext)){
+                return res.status(400).json ({error:"Unsupported file type"});
+            }
+
+            if(!fs.existsSync(videoPath)){
+                return res.status(404).json({error:"video file not found"});
+            }
+
             const data =
                 await this.tagProvider.getTagData(
                     videoPath
@@ -56,9 +70,9 @@ class ApiController {
 
         }
         catch (error) {
-
+         console.error(`[Error fetching tags for ID ${req.params.id}]:`, error);
             res.status(500).json({
-                error: error.message
+                error: "Something went wrong on our end. Please try again later."
             });
         }
     };
