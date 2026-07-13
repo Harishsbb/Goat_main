@@ -3,10 +3,10 @@ const TagDataProvider = require("./providers/TagDataProvider");
 const VideoProvider = require("./providers/VideoProvider");
 const ApiController = require("./controllers/ApiController");
 const createApiRouter = require("./routes/apiRoutes");
-
+const cors = require("cors");
 const app = express();
 app.use(express.json());
-
+app.use(cors());
 const tagProvider = new TagDataProvider();
 const videoProvider = new VideoProvider();
 const controller = new ApiController(videoProvider, tagProvider);

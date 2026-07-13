@@ -2,7 +2,16 @@ const { exec } = require("child_process");
 
 class TagDataProvider {
 
+    constructor() {
+        this.cache = new Map();
+    }
+
     getTagData(videoPath) {
+
+        // Check cache first
+        if (this.cache.has(videoPath)) {
+            return Promise.resolve(this.cache.get(videoPath));
+        }
 
         return new Promise((resolve, reject) => {
 
@@ -17,6 +26,8 @@ class TagDataProvider {
 
                     try {
                         const data = JSON.parse(stdout);
+                        // Store in cache
+                        this.cache.set(videoPath, data);
                         resolve(data);
                     }
                     catch (err) {
