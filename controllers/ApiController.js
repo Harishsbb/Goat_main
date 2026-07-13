@@ -2,11 +2,41 @@ const path = require("path");
 
 class ApiController {
 
-    constructor(tagProvider) {
+    constructor(videoProvider, tagProvider) {
+        this.videoProvider = videoProvider;
         this.tagProvider = tagProvider;
     }
 
-    getTags = async (req, res) => {
+    getVideoByID = (req, res) => {
+
+        try {
+            console.log("getvideoByID called");
+            const { id } = req.params;
+
+            console.log("Requested Video ID:", id);
+
+            const videoStream =
+                this.videoProvider.getVideoStream(id);
+
+            res.setHeader(
+                "Content-Type",
+                "video/mp4"
+            );
+
+            videoStream.pipe(res);
+
+        }
+        catch (error) {
+
+            res.status(
+                error.statusCode || 500
+            ).json({
+                error: error.message
+            });
+        }
+    };
+
+    getAprilTagDataByID = async (req, res) => {
 
         try {
 
@@ -14,11 +44,13 @@ class ApiController {
                 __dirname,
                 "..",
                 "uploads",
-                req.params.id
+                `${req.params.id}.mp4`
             );
 
             const data =
-                await this.tagProvider.getTagData(videoPath);
+                await this.tagProvider.getTagData(
+                    videoPath
+                );
 
             res.json(data);
 
@@ -28,7 +60,6 @@ class ApiController {
             res.status(500).json({
                 error: error.message
             });
-
         }
     };
 }
