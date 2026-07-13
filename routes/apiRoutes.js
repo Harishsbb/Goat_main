@@ -1,12 +1,17 @@
 const express = require("express");
 
-function createApiRouter(controller) {
+function createApiRouter(apiController) {
 
     const router = express.Router();
 
     router.get(
+        "/videos/:id",
+        apiController.getVideoByID
+    );
+
+    router.get(
         "/tags/:id",
-        controller.getTags
+        apiController.getAprilTagDataByID
     );
 
     return router;
