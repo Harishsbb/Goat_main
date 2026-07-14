@@ -1,4 +1,5 @@
-const { exec } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 class TagDataProvider {
 
@@ -10,14 +11,24 @@ class TagDataProvider {
 
         // Check cache first
         if (this.cache.has(videoPath)) {
-            return Promise.resolve(this.cache.get(videoPath));
+            return Promise.resolve(
+                this.cache.get(videoPath)
+            );
         }
+    //   const fileName = path.parse(videoPath).name;
+        // console.log("videoPath:", videoPath);
+        
+        const jsonPath = videoPath.replace(".mp4", ".json")
+        // console.log("JSON Path:", jsonPath);
+         console.log("hello",jsonPath);
+   
 
         return new Promise((resolve, reject) => {
 
-            exec(
-                `python video_detect.py "${videoPath}"`,
-                (error, stdout, stderr) => {
+            fs.readFile(
+                jsonPath,
+                "utf8",
+                (error, data) => {
 
                     if (error) {
                         reject(error);
@@ -25,12 +36,17 @@ class TagDataProvider {
                     }
 
                     try {
-                        const data = JSON.parse(stdout);
+                        const jsonData = JSON.parse(data);
+
                         // Store in cache
-                        this.cache.set(videoPath, data);
-                        resolve(data);
-                    }
-                    catch (err) {
+                        this.cache.set(
+                            videoPath,
+                            jsonData
+                        );
+
+                        resolve(jsonData);
+
+                    } catch (err) {
                         reject(err);
                     }
                 }
@@ -38,7 +54,10 @@ class TagDataProvider {
 
         });
 
-    }
+   
 }
+
+    }
+
 
 module.exports = TagDataProvider;

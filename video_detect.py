@@ -2,6 +2,8 @@ import cv2
 from pupil_apriltags import Detector
 import json
 import sys
+import os
+
 
 # initialize the AprilTag detector with the desired tag family
 detector = Detector(families="tag36h11")
@@ -60,7 +62,14 @@ if __name__ == "__main__":
 
     result = tag_detection(video_path)
 
-    with open("tags_data.json", "w") as file:
+    file_name = os.path.splitext(os.path.basename(video_path))[0]
+
+    json_path = os.path.join(
+        os.path.dirname(video_path),
+        f"{file_name}.json"
+    )
+
+    with open(json_path, "w") as file:
         json.dump(result, file, indent=4)
 
     print(json.dumps(result, indent=4))

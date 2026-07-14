@@ -1,0 +1,23 @@
+#container {
+    position: relative;
+    width: 700px;
+}
+
+#video {
+    width: 700px;
+    display: block;
+}
+
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+pre {
+    width: 700px;
+    background: #f0f0f0;
+    padding: 10px;
+    overflow-x: auto;
+}

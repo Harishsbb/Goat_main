@@ -12,7 +12,7 @@ class VideoProvider {
             `${videoId}.mp4`
         );
 
-        console.log("videoPath:", videoPath);
+        // console.log("videoPath:", videoPath);
 
         if (!fs.existsSync(videoPath)) {
             const error = new Error("Video not found");
