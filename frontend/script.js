@@ -7,11 +7,16 @@ let dotHistory = {};
 const video = document.getElementById("video");
 const canvas = document.getElementById("overlay");
 const ctx = canvas.getContext("2d");
+console.log("test")
 
 fetch("http://localhost:3000/api/tags/mathesh")    
-    .then(response => response.json())
+.then((response) =>{
+    console.log("hello",response)
+    return response.json()
+    
+}
+)
     .then(data => {
-
         tagData = data;
 
         document.getElementById("jsonData").textContent =
@@ -22,7 +27,6 @@ fetch("http://localhost:3000/api/tags/mathesh")
     .catch(error => {
         console.error(error);
     });
-
 video.addEventListener("loadedmetadata", () => {
 
     canvas.width = video.clientWidth;

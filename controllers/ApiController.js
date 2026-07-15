@@ -63,7 +63,7 @@ class ApiController {
 
             const data =
                 await this.tagProvider.getTagData(
-                    videoPath
+                    req.params.id
                 );
 
             res.json(data);
