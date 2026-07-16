@@ -8,7 +8,17 @@ const video = document.getElementById("video");
 const canvas = document.getElementById("overlay");
 const ctx = canvas.getContext("2d");
 console.log("test")
+video.addEventListener("ended", () => {
+    pathHistory = {};
+    dotHistory = {};
+});
 
+video.addEventListener("seeked", () => {
+    if (video.currentTime < 0.5) {
+        pathHistory = {};
+        dotHistory = {};
+    }
+});
 fetch("http://localhost:3000/api/tags/mathesh")    
 .then((response) =>{
     console.log("hello",response)
@@ -72,7 +82,7 @@ video.addEventListener("timeupdate", () => {
 
         if (
             nearestTime !== null &&
-            minDiff < 0.2
+            minDiff < 1
         ) {
 
             const [x, y] =
